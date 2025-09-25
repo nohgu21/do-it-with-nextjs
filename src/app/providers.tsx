@@ -8,26 +8,21 @@ function RotatingEngine() {
   return (
     <div className="absolute inset-0 flex items-center justify-center opacity-10">
       <div className="relative">
-        {/* Main engine body */}
         <div className="w-32 h-32 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full animate-spin-slow shadow-2xl">
-          {/* Engine bolts */}
           <div className="absolute top-2 left-2 w-3 h-3 bg-gray-700 rounded-full"></div>
           <div className="absolute top-2 right-2 w-3 h-3 bg-gray-700 rounded-full"></div>
           <div className="absolute bottom-2 left-2 w-3 h-3 bg-gray-700 rounded-full"></div>
           <div className="absolute bottom-2 right-2 w-3 h-3 bg-gray-700 rounded-full"></div>
           
-          {/* Center hub */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-gray-800 rounded-full border-2 border-gray-600"></div>
         </div>
         
-        {/* Engine blades */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 animate-spin">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gradient-to-t from-gray-600 to-gray-400 rounded-full"></div>
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gradient-to-b from-gray-600 to-gray-400 rounded-full"></div>
           <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 w-20 bg-gradient-to-l from-gray-600 to-gray-400 rounded-full"></div>
           <div className="absolute right-0 top-1/2 transform -translate-y-1/2 h-1 w-20 bg-gradient-to-r from-gray-600 to-gray-400 rounded-full"></div>
           
-          {/* Diagonal blades */}
           <div className="absolute top-3 left-3 w-1 h-14 bg-gradient-to-br from-gray-600 to-gray-400 rounded-full transform rotate-45 origin-bottom"></div>
           <div className="absolute top-3 right-3 w-1 h-14 bg-gradient-to-bl from-gray-600 to-gray-400 rounded-full transform -rotate-45 origin-bottom"></div>
           <div className="absolute bottom-3 left-3 w-1 h-14 bg-gradient-to-tr from-gray-600 to-gray-400 rounded-full transform -rotate-45 origin-top"></div>

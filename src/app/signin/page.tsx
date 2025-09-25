@@ -23,7 +23,7 @@ export default function SignInPage() {
        
         <button
           onClick={() => signIn("google")}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white text-[#0F4C5C] hover:bg-gray-100 rounded-xl transition-colors font-medium shadow"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white text-[#0F4C5C] hover:bg-gray-200 rounded-xl transition-colors font-medium shadow"
         >
           <Mail size={20} />
           Continue with Google
