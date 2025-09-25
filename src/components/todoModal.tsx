@@ -67,10 +67,8 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
     [mutation]
   );
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent): void => {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         setIsOpen(false);
         reset();
@@ -79,11 +77,16 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }
-    };
+    },
+    [todoValue, mutation.isPending, handleSubmit, onSubmit, reset]
+  );
+
+  useEffect(() => {
+    if (!isOpen) return;
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, todoValue, mutation.isPending, handleSubmit, onSubmit, reset]);
+  }, [isOpen, handleKeyDown]);
 
   return (
     <>

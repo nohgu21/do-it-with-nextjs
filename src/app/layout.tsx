@@ -1,9 +1,12 @@
 'use client';
+
 import { Lato } from "next/font/google";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import './globals.css'; 
 import AuthProvider from "./providers";
+
+const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
 export default function RootLayout({
   children,
@@ -14,7 +17,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className={lato.className}>
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             {children}
