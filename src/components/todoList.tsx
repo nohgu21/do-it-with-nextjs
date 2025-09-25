@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { signIn, signOut, useSession } from "next-auth/react";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { fetchCachedTodos } from '../utils/fetchTodos';
@@ -16,7 +15,6 @@ const MyTodoList: React.FC<MyTodoListProps> = ({
   setCurrentPage 
 }) => {
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const { data: session } = useSession();
   const queryClient = useQueryClient();
   const limit = 10;
   const skip = (currentPage - 1) * limit;

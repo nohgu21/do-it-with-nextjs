@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, X } from 'lucide-react';
 import type { TodoFormData, TodoResponse, Todo } from '@/types/todo';
@@ -78,7 +78,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, todoValue, mutation.isPending, handleSubmit, reset]);
+  }, [isOpen, todoValue, mutation.isPending, handleSubmit,  onSubmit, reset]);
 
   return (
     <>
