@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, X } from 'lucide-react';
-import type { TodoFormData, TodoResponse, Todo } from '@/types/todo';
+import { useForm } from "react-hook-form";
+import { useEffect, useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus, X } from "lucide-react";
+import type { TodoFormData, TodoResponse, Todo } from "@/types/todo";
 
 interface AddTodoModalProps {
   isOpen?: boolean;
@@ -20,21 +20,21 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm<TodoFormData>({
-    mode: 'onChange', 
+    mode: "onChange",
     defaultValues: {
-      todo: ''
-    }
+      todo: "",
+    },
   });
 
-  const todoValue = watch('todo');
+  const todoValue = watch("todo");
 
   const mutation = useMutation<TodoResponse, Error, TodoFormData>({
     mutationFn: async (formData: TodoFormData): Promise<TodoResponse> => {
-      const response = await fetch('https://dummyjson.com/todos/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("https://dummyjson.com/todos/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           todo: formData.todo,
           completed: false,
@@ -45,40 +45,45 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
       const data: TodoResponse = await response.json();
       console.log("New task added:", data);
 
-      if (!response.ok) throw new Error(data.message || 'Failed to add task');
+      if (!response.ok) throw new Error(data.message || "Failed to add task");
       return data;
     },
 
     onSuccess: (data: TodoResponse) => {
-      queryClient.setQueryData<Todo[]>(['todos'], (old) => old ? [...old, data] : [data]);
+      queryClient.setQueryData<Todo[]>(["todos"], (old) =>
+        old ? [...old, data] : [data]
+      );
       reset();
       setIsOpen(false);
     },
   });
 
-  const onSubmit = (data: TodoFormData): void => {
-    if (data.todo.trim()) {
-      mutation.mutate(data);
-    }
-  };
+  const onSubmit = useCallback(
+    (data: TodoFormData): void => {
+      if (data.todo.trim()) {
+        mutation.mutate(data);
+      }
+    },
+    [mutation]
+  );
 
   useEffect(() => {
     if (!isOpen) return;
-    
+
     const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
         reset();
       }
-      if (e.key === 'Enter' && todoValue?.trim() && !mutation.isPending) {
+      if (e.key === "Enter" && todoValue?.trim() && !mutation.isPending) {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, todoValue, mutation.isPending, handleSubmit,  onSubmit, reset]);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, todoValue, mutation.isPending, handleSubmit, onSubmit, reset]);
 
   return (
     <>
@@ -86,34 +91,40 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
         onClick={() => setIsOpen(true)}
         className="px-4 py-2 bg-[#0F4C5C] text-white font-semibold rounded-xl border-3 border-[#0d3a45] hover:bg-[#0d3a45] transition-colors flex items-center gap-2"
       >
-        <Plus size={16} />Add Todo
+        <Plus size={16} />
+        Add Todo
       </button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
-            <h3 className="font-bold text-lg mb-4 text-gray-800">Add a New Task</h3>
+            <h3 className="font-bold text-lg mb-4 text-gray-800">
+              Add a New Task
+            </h3>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
                 placeholder="e.g. Bake plantain pie"
                 className={`w-full p-3 border rounded-lg mb-4 bg-[#1F2937] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.todo ? 'border-red-500' : 'border-gray-300'
+                  errors.todo ? "border-red-500" : "border-gray-300"
                 }`}
-                {...register('todo', {
-                  required: 'Todo is required',
+                {...register("todo", {
+                  required: "Todo is required",
                   minLength: {
                     value: 1,
-                    message: 'Todo must be at least 1 character'
+                    message: "Todo must be at least 1 character",
                   },
-                  validate: (value: string) => value.trim().length > 0 || 'Todo cannot be empty'
+                  validate: (value: string) =>
+                    value.trim().length > 0 || "Todo cannot be empty",
                 })}
                 autoFocus
               />
-              
+
               {errors.todo && (
-                <p className="text-red-500 text-sm mb-4">{errors.todo.message}</p>
+                <p className="text-red-500 text-sm mb-4">
+                  {errors.todo.message}
+                </p>
               )}
 
               <div className="flex gap-2 justify-end">
@@ -125,7 +136,8 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
                     setIsOpen(false);
                   }}
                 >
-                  <X size={16} className='font-red-500' />Cancel
+                  <X size={16} className="font-red-500" />
+                  Cancel
                 </button>
 
                 <button
@@ -134,7 +146,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = () => {
                   className="px-4 py-2 border border-[#0F4C5C] text-[#0F4C5C] bg-white hover:bg-[#0F4C5C] hover:text-white rounded-xl transition-colors disabled:opacity-50 flex items-center gap-1"
                 >
                   <Plus size={16} />
-                  {mutation.isPending ? 'Adding...' : 'Add'}
+                  {mutation.isPending ? "Adding..." : "Add"}
                 </button>
               </div>
             </form>

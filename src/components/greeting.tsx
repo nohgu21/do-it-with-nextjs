@@ -13,7 +13,7 @@ const Greeting = () => {
   }, []);
 
 
-  if (!greeting) return <h1 className="text-2xl font-bold">You're Back!</h1>;
+  if (!greeting) return <h1 className="text-2xl font-bold">You&apos;re Back!</h1>;
 
   return <h1 className="text-2xl font-bold">{greeting}</h1>;
 };

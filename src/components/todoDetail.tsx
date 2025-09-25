@@ -78,7 +78,7 @@ const TodoDetail: React.FC<{ id: string }> = ({ id }) => {
             </h3>
           ) : (
             <>
-              <p className='font-bold text-lg'>What's this task about?</p>
+              <p className='font-bold text-lg'>What&apos;s this task about?</p>
               <input
                 type='text'
                 value={description}
